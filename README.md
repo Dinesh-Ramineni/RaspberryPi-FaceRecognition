@@ -1,64 +1,74 @@
 # RaspberryPi-FaceRecognition
-Face Recognition on Raspberry Pi, A real-time face recognition system using: Raspberry Pi, OpenCV, and SVM classification. 
 
-This project implements **real-time face recognition** using a **Raspberry Pi Camera Module 2** and **OpenCV**. It captures faces, trains an SVM model, and recognizes known faces in a live video feed.  
+A real-time face recognition system using Raspberry Pi and PiCamera2. This project captures, trains, and recognizes faces with SVM classification and OpenCV.
 
-## **Features**  
-✅ Face detection using OpenCV’s Haar cascades  
-✅ Face recognition using an SVM model with HOG features  
-✅ Live video feed with detected names displayed on the screen  
-✅ Unrecognized faces labeled as **"Unknown"**  
-✅ Works on **Raspberry Pi with Picamera2**  
+## Features
+- Live face detection and recognition
+- Captures images and trains an SVM model
+- Recognizes known faces and labels unrecognized faces as "Unknown"
+- Runs efficiently on Raspberry Pi using PiCamera2
 
-## **Installation**  
+## Hardware Requirements
+- Raspberry Pi (Tested on Raspberry Pi 4)
+- Raspberry Pi Camera Module 2
+- MicroSD Card (32GB recommended)
+- Power Adapter
 
-### **1. Install Dependencies**  
-Run the following commands to install the required libraries:  
+## Software Requirements
+- Raspberry Pi OS (Bullseye or newer)
+- Python 3.x
+- OpenCV (with `opencv-contrib-python` for face recognition)
+- Scikit-learn
+- PiCamera2 Library
+
+## Installation
+Clone the repository and install dependencies:
+
 ```bash
 sudo apt update && sudo apt upgrade -y
-pip3 install opencv-contrib-python numpy scikit-learn picamera2
+sudo apt install python3-pip libopencv-dev
+pip3 install -r requirements.txt
 ```
 
-### **2. Enable Camera on Raspberry Pi**  
-Ensure the Raspberry Pi camera is enabled:  
+### Enable Camera
+Make sure the legacy camera interface is **disabled** and the new driver is enabled:
+
 ```bash
 sudo raspi-config
 ```
-- **Go to "Interface Options" → "Camera" → Enable**  
-- **Disable the legacy camera support**  
+Go to **Interfacing Options → Camera → Disable** (for legacy)
 
-Reboot the Raspberry Pi:  
-```bash
-sudo reboot
-```
-
-## **Usage**  
-
-### **1. Capture Face Images**  
-Run the script to capture images for training:  
+## Usage
+### 1. Capture Faces
+Run the following command to capture face images:
 ```bash
 python3 capture_faces.py
 ```
-- Enter the person's name when prompted.  
-- The script will capture 10 images per person and store them in `captured_faces/`.  
+Enter the person's name when prompted. It will save 10 images in `captured_faces/{person_name}`.
 
-### **2. Train the Face Recognition Model**  
-After capturing images, train the model:  
+### 2. Train the Model
 ```bash
 python3 train_faces.py
 ```
-- This script extracts HOG features, trains an **SVM classifier**, and saves the model (`face_svm_model.pkl`).  
+This will generate `face_svm_model.pkl` in the models directory.
 
-### **3. Live Face Recognition**  
-Run the script to recognize faces in real-time:  
+### 3. Recognize Faces in Real-Time
 ```bash
 python3 recognition_face.py
 ```
-- Detected faces will be **displayed on the video feed with names**.  
-- If a face is not recognized, it will be labeled as **"Unknown"**.  
+The camera window will show recognized faces with their names. Press `q` to exit.
 
-## **Demo**  
-![Demo](https://via.placeholder.com/600x300?text=Face+Recognition+Demo)  
+## Troubleshooting
+- **Camera Not Found Error:** Run `sudo raspi-config` and enable the new camera driver.
+- **Module Not Found:** Ensure dependencies are installed (`pip3 install -r requirements.txt`).
+- **Low Accuracy:** Try capturing more images per person before training.
 
-## **License**  
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details. 
+## License
+This project is licensed under the [MIT License](LICENSE).
+
+## Contributing
+Feel free to fork and contribute! Open an issue if you face any problems.
+
+---
+**Author:** Dinesh Ramineni
+
